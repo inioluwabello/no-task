@@ -1,10 +1,12 @@
 /* Components */
-import { Counter } from './components/Counter/Counter'
+import Board from './components/Board/Board'
+// import { Counter } from './components/Counter/Counter'
 
 export default function IndexPage() {
-  return <Counter />
+  // return <Counter />
+  return <Board />
 }
 
 export const metadata = {
-  title: 'Redux Toolkit',
+  title: 'No Task',
 }
