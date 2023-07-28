@@ -1,7 +1,7 @@
 /* Instruments */
-import { counterSlice, boardSlice } from './slices'
+import { pageSlice, boardSlice } from './slices'
 
 export const reducer = {
-  counter: counterSlice.reducer,
+  page: pageSlice.reducer,
   board: boardSlice.reducer
 }

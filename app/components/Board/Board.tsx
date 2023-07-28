@@ -1,14 +1,15 @@
 'use client'
 
-import { getBoardsAsync, selectBoards, useDispatch, useSelector } from "@/lib/redux";
+import { getBoardsAsync, selectBoards, selectTheme, useDispatch, useSelector } from "@/lib/redux";
 import { LeftPane } from "../LeftPane/LeftPane";
+import React, { useEffect } from "react";
+import { useContext } from 'react';
 import { TaskList } from "../Task/TaskList";
 import { TopPane } from "./TopPane";
-import { useEffect } from "react";
-import React from "react";
 
 const Board = React.memo(() => {
 
+    const theme = useSelector(selectTheme);
     const dispatch = useDispatch()
     const boardList = useSelector(selectBoards);
     useEffect(() => {
@@ -17,7 +18,8 @@ const Board = React.memo(() => {
     })
 
     return (
-        <div className="content flex">
+        
+        <div className={`main ${theme} flex`}>
             <LeftPane />
 
             <div className="right-pane">
@@ -27,6 +29,7 @@ const Board = React.memo(() => {
                 </div>
             </div>
         </div>
+
     )
 });
 

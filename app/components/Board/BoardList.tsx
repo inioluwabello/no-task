@@ -9,8 +9,8 @@ export const BoardList = () => {
             <div className="nav-title">
                 ALL BOARDS ({boardList.length})
             </div>
-
-            <ul className="board-list">
+            
+            {boardList && <ul className="board-list">
                 {boardList.map(item => {
                     return (
                         <li key={item._id}>
@@ -21,7 +21,7 @@ export const BoardList = () => {
                 <li className="new-board">
                     <Link href={`/board/new-board`}>+ Create New Board</Link>
                 </li>
-            </ul>
+            </ul>}
         </>
     )
 }

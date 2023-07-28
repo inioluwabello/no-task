@@ -28,3 +28,22 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0;
 }
+
+/* styles.css */
+.main{
+  height: 100vh;
+}
+.light.main {
+  background: #ffffff;
+  color: #333;
+}
+
+.dark.main {
+  background: #21212d;
+  color: #fff;
+}
+
+.dark .top-pane,
+.dark .left-pane {
+  background: #2c2c38;
+}
