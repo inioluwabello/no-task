@@ -1,5 +1,7 @@
 import { IBoard } from "@/lib/interfaces";
 import { createNewTaskAsync, useDispatch } from "@/lib/redux";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 
 interface NewTaskProp {
@@ -74,21 +76,23 @@ export const NewTask = ({ selectedBoard, statusArray }: NewTaskProp) => {
             <h2
                 onClick={handleNewColumnCLick}
                 className={`
-                        ${newClEditorVisible === false ? '' : 'd-none'}
-                        ${newStatusName === '' ? `alt-pry-text` : 'alt-text'} pointer
-                        `}
+                    ${newClEditorVisible === false ? '' : 'd-none'}
+                    ${newStatusName === '' ? `alt-pry-text` : 'alt-text'} pointer
+                    `}
             >{newStatusName === '' ? `+ New Column` : newStatusName.toLocaleUpperCase()}</h2>
 
             <input type="text"
                 onChange={handleStatusInput}
                 onKeyDown={handleEnterPress}
                 value={newStatusName}
+                placeholder="Press enter to save"
                 className={`
-                            ${newClEditorVisible === true ? '' : 'd-none'} 
-                            ${entryError === true ? 'error' : ''}
-                            alt-text new-status`}
+                        ${newClEditorVisible === true ? '' : 'd-none'} 
+                        ${entryError === true ? 'error' : ''}
+                        alt-text new-status`}
                 ref={statusRef} />
 
+            
             {newStatusName !== '' && newClEditorVisible === false &&
                 <div className="add-task">
                     <input type="text"

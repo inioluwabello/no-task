@@ -68,3 +68,43 @@ export const putNewTask = async (payload: { boardId: string; title: string; stat
     throw error;
   }
 };
+
+export const deleteTaskByStatus = async (payload: { boardId: string; status: string }) => {
+  try {
+    // Assuming you have a function to delete tasks by status in your backend
+    const response = await fetch(`${API_URL}/api/boards/${payload.boardId}/tasks/status/${payload.status}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+      throw new Error('Error deleting tasks by status');
+    }
+
+    const remainingTasks = await response.json();
+    return remainingTasks;
+  } catch (error) {
+    console.error('Error deleting tasks by status:', error);
+    throw error;
+  }
+};
+
+export const archiveTaskByStatus = async (payload: { boardId: string; status: string }) => {
+  try {
+    // Assuming you have a function to delete tasks by status in your backend
+    const response = await fetch(`${API_URL}/api/boards/${payload.boardId}/tasks/archive/${payload.status}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+      throw new Error('Error deleting tasks by status');
+    }
+
+    const remainingTasks = await response.json();
+    return remainingTasks;
+  } catch (error) {
+    console.error('Error deleting tasks by status:', error);
+    throw error;
+  }
+};

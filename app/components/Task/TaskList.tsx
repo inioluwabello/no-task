@@ -1,7 +1,7 @@
-import { TaskCard } from './TaskCard';
-import { createNewTaskAsync, getBoardTasksAsync, getSelectedBoard, selectTasks, useDispatch, useSelector } from '@/lib/redux';
-import { useEffect, useState, useRef } from 'react';
+import { getBoardTasksAsync, getSelectedBoard, selectTasks, useDispatch, useSelector } from '@/lib/redux';
+import { useEffect } from 'react';
 import { NewTask } from './NewTask';
+import { StatusColumn } from './StatusColumn';
 
 export const TaskList = () => {
 
@@ -16,28 +16,13 @@ export const TaskList = () => {
 
     const statusArray = [...new Set(tasks.map(task => task.status))];
 
-    const renderTasksByStatus = (status: string) => {
-
-        return tasks
-            .filter((task) => task.status === status)
-            .map((task) => (
-                <TaskCard key={task._id} task={task} />
-            ));
-    };
-
-    const countTasksByStatus = (status: string) => {
-        return (tasks.filter((task) => task.status === status)).length
-    }
-
+    
     return (
         <div className="task-board">
             <div className="flex">
                 {statusArray.map(status => {
                     return (
-                    <div key={status} className="column">
-                        <h2 className='alt-text'>{status} ({countTasksByStatus(status)})</h2>
-                        {renderTasksByStatus(status)}
-                    </div>
+                        <StatusColumn key={status} selectedBoard={selectedBoard} tasks={tasks} status={status} />
                     )
                 })}
                 

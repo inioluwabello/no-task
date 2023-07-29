@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchBoards, fetchBoardTasks, putNewTask } from './asyncTasks';
+import { archiveTaskByStatus, deleteTaskByStatus, fetchBoards, fetchBoardTasks, putNewTask } from './asyncTasks';
 import { BoardSliceState, IBoard } from '@/lib/interfaces';
 
 
@@ -26,6 +26,20 @@ export const createNewTaskAsync = createAsyncThunk(
   }
 );
 
+export const deleteTaskInStatusAsync = createAsyncThunk(
+  'board/deleteTaskInStatusAsync',
+  async (payload: { boardId: string; status: string }) => {
+    return deleteTaskByStatus(payload);
+  }
+);
+
+export const archiveTaskInStatusAsync = createAsyncThunk(
+  'board/archiveTaskInStatusAsync',
+  async (payload: { boardId: string; status: string }) => {
+    return archiveTaskByStatus(payload);
+  }
+);
+
 export const boardSlice = createSlice({
   name: 'board',
   initialState,
@@ -47,6 +61,7 @@ export const boardSlice = createSlice({
         state.boards = action.payload;
         state.selectedBoard = state.boards[0];
       })
+
       .addCase(getBoardTasksAsync.pending, (state) => {
         state.status = 'loading';
       })
@@ -54,12 +69,29 @@ export const boardSlice = createSlice({
         state.status = 'idle';
         state.tasks = action.payload;
       })
+
       .addCase(createNewTaskAsync.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(createNewTaskAsync.fulfilled, (state, action) => {
         state.status = 'idle';
         state.tasks.push(action.payload);
+      })
+
+      .addCase(deleteTaskInStatusAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(deleteTaskInStatusAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.tasks = action.payload;
+      })
+
+      .addCase(archiveTaskInStatusAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(archiveTaskInStatusAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.tasks = action.payload;
       })
   },
 });

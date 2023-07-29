@@ -1,4 +1,4 @@
-import { ITask } from "@/lib/redux";
+import { ITask } from "@/lib/interfaces";
 
 interface TakListProps {
     task: ITask

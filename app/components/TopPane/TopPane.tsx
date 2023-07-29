@@ -12,7 +12,12 @@ export const TopPane = () => {
             <div className="top-bar-actions">
                 <div className="flex ac">
                     <button className="btn btn-rnd pry-bg mr-1">+ Add New Task</button>
-                    <FontAwesomeIcon className="alt-text" icon={faEllipsisVertical} width={16} height={16} />
+                    <button className="btn btn-icon">
+                        <FontAwesomeIcon className="alt-text" 
+                            icon={faEllipsisVertical} 
+                            width={16} 
+                            height={16} />
+                    </button>
                 </div>
             </div>
         </div>

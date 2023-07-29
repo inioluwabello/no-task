@@ -71,6 +71,7 @@ body {
   border-radius: 3em;
   color: #ffffff;
   font-size: 12px;
+  cursor: pointer;
 }.btn:hover{
   opacity: .5;
 }.ac {
@@ -118,7 +119,8 @@ body {
   min-width: 180px;
   margin-right: 1em;
   min-height: 100vh;
-}.column>h2 {
+}.column>h2,
+.task-column>h2 {
   font-size: 10px;
   font-weight: 400;
   letter-spacing: 1px;
@@ -159,4 +161,31 @@ body {
   color: #ffffff;
 }.error{
   color: red !important;
+}.btn-icon {
+  padding: 0px !important;
+  background: none;
+  width: 16px;
+  height: 16px;
+}.btn-icon:hover {
+  background: rgb(0 0 0 / 28%) !important;
+  box-shadow: 0 0 4px 1px #e2e2e252;
+}.status-options {
+  position: absolute;
+  background: var(--very-dark-bg);
+  border-radius: 5px;
+  min-width: 138px;
+  right: 0;
+  top: 12px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}.status-options>ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}.status-options>ul>li {
+  font-size: 12px;
+  padding: .5em 1em;
+}.status-options>ul>li:hover {
+  background: #645fc673;
+}.relative {
+  position: relative
 }
