@@ -1,8 +1,10 @@
-import { IBoard, ITask } from "./boardSlice";
+import { IBoard, ITask } from "@/lib/interfaces";
 
-export const fetchBoardTasks = async (apiUrl: string, id: string): Promise<ITask[]> => {
+const API_URL = "http://localhost:3001";
+
+export const fetchBoardTasks = async (id: string): Promise<ITask[]> => {
   try {
-    const response = await fetch(`${apiUrl}/api/boards/${id}/tasks`, {
+    const response = await fetch(`${API_URL}/api/boards/${id}/tasks`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -21,9 +23,9 @@ export const fetchBoardTasks = async (apiUrl: string, id: string): Promise<ITask
   }
 };
 
-export const fetchBoards = async (apiUrl: string): Promise<IBoard[]> => {
+export const fetchBoards = async (): Promise<IBoard[]> => {
   try {
-    const response = await fetch(`${apiUrl}/api/boards`, {
+    const response = await fetch(`${API_URL}/api/boards`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -39,5 +41,30 @@ export const fetchBoards = async (apiUrl: string): Promise<IBoard[]> => {
     // Handle network or other errors here
     console.error("Error fetching boards:", error);
     return [];
+  }
+};
+
+export const putNewTask = async (payload: { boardId: string; title: string; status: string }) => {
+  try {
+    // Assuming you have a function to create a new task in your backend
+    const response = await fetch(`${API_URL}/api/boards/${payload.boardId}/tasks`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: payload.title,
+        status: payload.status,
+        // Add other task properties as needed
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error creating a new task');
+    }
+
+    const newTask = await response.json();
+    return newTask;
+  } catch (error) {
+    console.error('Error creating a new task:', error);
+    throw error;
   }
 };

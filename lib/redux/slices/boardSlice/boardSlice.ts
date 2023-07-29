@@ -1,14 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchBoards, fetchBoardTasks } from './asyncTasks';
+import { fetchBoards, fetchBoardTasks, putNewTask } from './asyncTasks';
+import { BoardSliceState, IBoard } from '@/lib/interfaces';
 
-const API_URL = "http://localhost:3001";
-
-export interface BoardSliceState {
-  boards: IBoard[];
-  selectedBoard?: IBoard;
-  tasks: ITask[];
-  status: 'idle' | 'loading' | 'failed';
-}
 
 const initialState: BoardSliceState = {
   boards: [],
@@ -17,14 +10,21 @@ const initialState: BoardSliceState = {
 };
 
 export const getBoardsAsync = createAsyncThunk('board/fetchBoardsAsync', async () => {
-  const response = await fetchBoards(API_URL);
+  const response = await fetchBoards();
   return response;
 });
 
 export const getBoardTasksAsync = createAsyncThunk('board/fetchBoardTasksAsync', async (id: string) => {
-  const response = await fetchBoardTasks(API_URL, id);
+  const response = await fetchBoardTasks(id);
   return response;
 });
+
+export const createNewTaskAsync = createAsyncThunk(
+  'board/createNewTaskAsync',
+  async (payload: { boardId: string; title: string; status: string }) => {
+    return putNewTask(payload);
+  }
+);
 
 export const boardSlice = createSlice({
   name: 'board',
@@ -54,22 +54,12 @@ export const boardSlice = createSlice({
         state.status = 'idle';
         state.tasks = action.payload;
       })
+      .addCase(createNewTaskAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(createNewTaskAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.tasks.push(action.payload);
+      })
   },
 });
-
-export interface IBoard {
-  _id: string;
-  title: string;
-  statuses: string[];
-}
-
-export interface ITask {
-  _id: string;
-  title: string;
-  description: string;
-  dueDate: Date;
-  priority: string;
-  status: string;
-  assignees: string[];
-  comments: string[];
-}
