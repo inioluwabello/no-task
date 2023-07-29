@@ -1,3 +1,4 @@
+// pageSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface PageSliceState {
@@ -5,7 +6,7 @@ export interface PageSliceState {
 }
 
 const initialState: PageSliceState = {
-  theme: 'light'
+  theme: 'light',
 };
 
 export const pageSlice = createSlice({
@@ -13,7 +14,7 @@ export const pageSlice = createSlice({
   initialState,
   reducers: {
     setTheme: (state, action: PayloadAction<string>) => {
-      state.theme = action.payload === 'light' ? 'dark' : 'light';
+      state.theme = action.payload;
     },
   },
 });

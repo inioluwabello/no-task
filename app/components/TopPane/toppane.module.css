@@ -1,0 +1,9 @@
+.paneTitle{
+    font-weight: 500;
+    font-size: 14px;
+}
+.topPane {
+    padding: 0.7rem;
+    border-bottom: 1px solid #8989895c;
+    align-items: center;
+}

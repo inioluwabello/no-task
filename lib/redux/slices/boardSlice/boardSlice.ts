@@ -33,6 +33,9 @@ export const boardSlice = createSlice({
     setBoards: (state, action: PayloadAction<IBoard[]>) => {
       state.boards = action.payload;
     },
+    selectBoard: (state, action: PayloadAction<IBoard>) => {
+      state.selectedBoard = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -50,7 +53,7 @@ export const boardSlice = createSlice({
       .addCase(getBoardTasksAsync.fulfilled, (state, action) => {
         state.status = 'idle';
         state.tasks = action.payload;
-      });
+      })
   },
 });
 

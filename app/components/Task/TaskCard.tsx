@@ -1,4 +1,4 @@
-import { ITask } from './TaskList';
+import { ITask } from "@/lib/redux";
 
 interface TakListProps {
     task: ITask
@@ -7,11 +7,9 @@ interface TakListProps {
 export const TaskCard = ({ task }: TakListProps) => {
 
     return (
-        <div className="task-card">
-            <div key={task._id}>
-                <h3>{task.title}</h3>
-                <p>{task.description}</p>
-            </div>
+        <div key={task._id} className="task-card">
+            <h3>{task.title}</h3>
+            <p className="alt-text">{task.description}</p>
         </div>
     );
 };

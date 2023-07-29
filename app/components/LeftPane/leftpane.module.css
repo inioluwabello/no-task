@@ -1,0 +1,7 @@
+.leftPane {
+    min-width: 250px;
+    width: 20%;
+    padding: 2rem 1rem;
+    border-right: 1px solid #8989895c;
+    font-size: 12px;
+}
