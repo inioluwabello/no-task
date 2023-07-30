@@ -1,6 +1,6 @@
 import { IBoard } from "@/lib/interfaces";
 import { createNewTaskAsync, useDispatch } from "@/lib/redux";
-import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisVertical, faProjectDiagram } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 
@@ -108,8 +108,13 @@ export const NewTask = ({ selectedBoard, statusArray }: NewTaskProp) => {
             </div>}
 
             {!selectedBoard && 
-                <div className="default-board-message">
+                <div className="default-board-message text-center">
                     Create or select a board
+
+                    <div className="default-icon">
+                        <FontAwesomeIcon icon={faProjectDiagram} style={{width: "250px", height: "250px"}} />
+                    </div>
+
                 </div>}
         </>
     )

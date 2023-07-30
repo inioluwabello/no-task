@@ -1,4 +1,6 @@
 import { archiveTaskInStatusAsync, deleteTaskInStatusAsync, useDispatch } from "@/lib/redux"
+import { faArchive, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const StatusActions = ({ boardId, status, onCloseDropdown }: { boardId: string, status: string, onCloseDropdown: () => void }) => {
     
@@ -26,10 +28,14 @@ export const StatusActions = ({ boardId, status, onCloseDropdown }: { boardId: s
     return (
 
         <div className="relative">
-            <div className="status-options">
+            <div className="status-options alt-text">
                 <ul>
-                    <li className="pointer" onClick={() => archiveTaskInStatus(status)}>Archive</li>
-                    <li className="pointer" onClick={() => deleteTaskInStatus(status)}>Delete</li>
+                    <li className="pointer" onClick={() => archiveTaskInStatus(status)}>
+                        <FontAwesomeIcon icon={faArchive} /> Archive
+                    </li>
+                    <li className="pointer" onClick={() => deleteTaskInStatus(status)}>
+                        <FontAwesomeIcon icon={faTrash} /> Delete
+                    </li>
                 </ul>
             </div>
         </div>
