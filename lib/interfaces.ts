@@ -22,3 +22,12 @@ export interface ITask {
     assignees: string[];
     comments: string[];
 }
+
+export interface NewBoardResult {
+    boards: IBoard[],
+    newBoard: IBoard 
+}
+
+export interface DeleteBoardResult{
+    boards: IBoard[]
+}

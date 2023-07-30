@@ -2,6 +2,7 @@ import { getBoardTasksAsync, getSelectedBoard, selectTasks, useDispatch, useSele
 import { useEffect } from 'react';
 import { NewTask } from './NewTask';
 import { StatusColumn } from './StatusColumn';
+import { ITask } from '@/lib/interfaces';
 
 export const TaskList = () => {
 
@@ -12,9 +13,9 @@ export const TaskList = () => {
     useEffect(() => {
         if ((!tasks || tasks.length === 0) && selectedBoard)
             dispatch(getBoardTasksAsync(selectedBoard._id))
-    }, [tasks])
+    }, [tasks, selectedBoard])
 
-    const statusArray = [...new Set(tasks.map(task => task.status))];
+    const statusArray = [...new Set(tasks.map((task: ITask) => task.status))];
 
     
     return (

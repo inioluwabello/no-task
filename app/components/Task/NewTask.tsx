@@ -89,7 +89,7 @@ export const NewTask = ({ selectedBoard, statusArray }: NewTaskProp) => {
                 className={`
                         ${newClEditorVisible === true ? '' : 'd-none'} 
                         ${entryError === true ? 'error' : ''}
-                        alt-text new-status`}
+                        alt-text inline-editor`}
                 ref={statusRef} />
 
             

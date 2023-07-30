@@ -1,15 +1,13 @@
-import { IBoard, boardSlice, getBoardTasksAsync, getSelectedBoard, selectBoards, useDispatch, useSelector } from "@/lib/redux"
-import Link from "next/link"
-import { useEffect } from "react";
+import { IBoard } from "@/lib/interfaces";
+import { boardSlice, createNewBoardAsync, getBoardTasksAsync, getSelectedBoard, selectBoards, useDispatch, useSelector } from "@/lib/redux"
+import { useEffect, useRef, useState } from "react";
+import { BoardListItem } from "./BoardListItem";
 
 export const BoardList = () => {
     const boardList = useSelector(selectBoards);
     const selectedBoard = useSelector(getSelectedBoard)
     const dispatch = useDispatch();
 
-    const handleSelectBoardClick = (item: IBoard): void => {
-        dispatch(boardSlice.actions.selectBoard(item))
-    }
 
     useEffect(() => {
         if (!selectedBoard)
@@ -17,6 +15,32 @@ export const BoardList = () => {
             
         dispatch(getBoardTasksAsync(selectedBoard!._id))
     }, [selectedBoard])
+
+    const newBoardRef = useRef < HTMLInputElement >(null)
+    const [newBoardEditorVisible, setNewEditorVisibility] = useState(false);
+
+    useEffect(() => {
+        // Focus the input element when newBoardEditorVisible is set to true
+        if (newBoardEditorVisible && newBoardRef.current) {
+            newBoardRef.current.focus();
+        }
+    }, [newBoardEditorVisible]);
+
+    const [newBoardName, setNewBoardName] = useState('')
+    const handleBoardNameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNewBoardName(e.target.value)
+    }
+
+    const handleBoardEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (newBoardName.trim() !== '' && e.key === 'Enter') {
+            const payload = {
+                title: newBoardName
+            }
+            dispatch(createNewBoardAsync(payload))
+            setNewBoardName('')
+            setNewEditorVisibility(false)
+        }
+    }
 
     return (
         <>
@@ -27,16 +51,25 @@ export const BoardList = () => {
             {boardList && <ul className="board-list">
                 {boardList.map(item => {
                     return (
-                        <li 
-                            key={item._id} 
-                            className={`${selectedBoard?._id === item._id ? 'selected-board' : ''} pointer`}
-                            onClick={() => handleSelectBoardClick(item)}>
-                            <span>{item.title}</span>
-                        </li>
+                        <BoardListItem key={item._id} selectedBoard={selectedBoard} item={item} />
                     )
                 })}
                 <li className="new-board">
-                    <Link href={`/board/new-board`}>+ Create New Board</Link>
+                    {!newBoardEditorVisible && 
+                        <button
+                            onClick={() => {
+                                setNewEditorVisibility(!newBoardEditorVisible);
+                                newBoardRef.current?.focus();
+                            }}
+                            className="alt-pry-text pointer">+ Create New Board</button>}
+                    {newBoardEditorVisible &&
+                        <input
+                            ref={newBoardRef}
+                            value={newBoardName}
+                            onChange={handleBoardNameInput}
+                            onKeyDown={handleBoardEnterPress}
+                            placeholder="Press Enter to save"
+                            className="inline-editor alt-text" type="text" />}
                 </li>
             </ul>}
         </>

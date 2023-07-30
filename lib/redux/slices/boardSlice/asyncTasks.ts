@@ -108,3 +108,46 @@ export const archiveTaskByStatus = async (payload: { boardId: string; status: st
     throw error;
   }
 };
+
+export const putNewBoard = async (payload: { title: string; }) => {
+  try {
+    // Assuming you have a function to create a new task in your backend
+    const response = await fetch(`${API_URL}/api/boards`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: payload.title,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error creating a new board');
+    }
+
+    const { boards, newBoard } = await response.json();
+    return { boards, newBoard };
+  } catch (error) {
+    console.error('Error creating a new task:', error);
+    throw error;
+  }
+};
+
+export const deleteBoard = async (payload: { boardId: string }) => {
+  try {
+    // Assuming you have a function to delete tasks by status in your backend
+    const response = await fetch(`${API_URL}/api/boards/${payload.boardId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+      throw new Error('Error deleting tasks by status');
+    }
+
+    const { message, boards } = await response.json();
+    return { message, boards };
+  } catch (error) {
+    console.error('Error deleting tasks by status:', error);
+    throw error;
+  }
+};
