@@ -1,5 +1,5 @@
 import { IBoard } from "@/lib/interfaces";
-import { boardSlice, createNewBoardAsync, getBoardTasksAsync, getSelectedBoard, selectBoards, useDispatch, useSelector } from "@/lib/redux"
+import { createNewBoardAsync, getBoardTasksAsync, getSelectedBoard, selectBoards, useDispatch, useSelector } from "@/lib/redux"
 import { useEffect, useRef, useState } from "react";
 import { BoardListItem } from "./BoardListItem";
 

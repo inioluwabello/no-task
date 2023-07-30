@@ -145,7 +145,7 @@ export const deleteBoard = async (payload: { boardId: string }) => {
     }
 
     const { message, boards } = await response.json();
-    return { message, boards };
+    return { message, boards, deletedBoardId: payload.boardId };
   } catch (error) {
     console.error('Error deleting tasks by status:', error);
     throw error;

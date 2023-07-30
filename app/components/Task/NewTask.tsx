@@ -72,38 +72,45 @@ export const NewTask = ({ selectedBoard, statusArray }: NewTaskProp) => {
     };
 
     return (
-        <div className="column new-column">
-            <h2
-                onClick={handleNewColumnCLick}
-                className={`
-                    ${newClEditorVisible === false ? '' : 'd-none'}
-                    ${newStatusName === '' ? `alt-pry-text` : 'alt-text'} pointer
-                    `}
-            >{newStatusName === '' ? `+ New Column` : newStatusName.toLocaleUpperCase()}</h2>
+        <>
+            {selectedBoard && <div className="column new-column">
+                <h2
+                    onClick={handleNewColumnCLick}
+                    className={`
+                        ${newClEditorVisible === false ? '' : 'd-none'}
+                        ${newStatusName === '' ? `alt-pry-text` : 'alt-text'} pointer
+                        `}
+                >{newStatusName === '' ? `+ New Column` : newStatusName.toLocaleUpperCase()}</h2>
 
-            <input type="text"
-                onChange={handleStatusInput}
-                onKeyDown={handleEnterPress}
-                value={newStatusName}
-                placeholder="Press enter to save"
-                className={`
-                        ${newClEditorVisible === true ? '' : 'd-none'} 
-                        ${entryError === true ? 'error' : ''}
-                        alt-text inline-editor`}
-                ref={statusRef} />
+                <input type="text"
+                    onChange={handleStatusInput}
+                    onKeyDown={handleEnterPress}
+                    value={newStatusName}
+                    placeholder="Press enter to save"
+                    className={`
+                            ${newClEditorVisible === true ? '' : 'd-none'} 
+                            ${entryError === true ? 'error' : ''}
+                            alt-text inline-editor`}
+                    ref={statusRef} />
 
-            
-            {newStatusName !== '' && newClEditorVisible === false &&
-                <div className="add-task">
-                    <input type="text"
-                        className="new-task"
-                        onChange={handleNewTaskInput}
-                        onKeyDown={handleNewTaskEnterPress}
-                        value={newTaskTitle}
-                        placeholder='Add new task' />
+                
+                {newStatusName !== '' && newClEditorVisible === false &&
+                    <div className="add-task">
+                        <input type="text"
+                            className="new-task"
+                            onChange={handleNewTaskInput}
+                            onKeyDown={handleNewTaskEnterPress}
+                            value={newTaskTitle}
+                            placeholder='Add new task' />
 
-                </div>
-            }
-        </div>
+                    </div>
+                }
+            </div>}
+
+            {!selectedBoard && 
+                <div className="default-board-message">
+                    Create or select a board
+                </div>}
+        </>
     )
 }

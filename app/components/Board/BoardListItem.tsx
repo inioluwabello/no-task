@@ -13,13 +13,18 @@ export const BoardListItem = ({ selectedBoard, item }: {selectedBoard?: IBoard, 
 
     const handleDeleteClick = (boardId: string) => {
         // TODO: Add Modal
-        dispatch(deleteBoardAsync(boardId))
-        if (boardList.length > 0) {
-            dispatch(boardSlice.actions.selectBoard(boardList[0]))
-            dispatch(getBoardTasksAsync(boardList[0]._id))
-        } else {
-            dispatch(boardSlice.actions.resetBoard())
+        if (selectedBoard && selectedBoard._id === boardId) {
+            // If the deleted board is the selected board, dispatch the resetBoard action
+            dispatch(boardSlice.actions.resetBoard());
         }
+
+        dispatch(deleteBoardAsync(boardId))
+        // if (boardList.length > 0) {
+        //     dispatch(boardSlice.actions.selectBoard(boardList[0]))
+        //     dispatch(getBoardTasksAsync(boardList[0]._id))
+        // } else {
+        //     dispatch(boardSlice.actions.resetBoard())
+        // }
     }
 
     return (

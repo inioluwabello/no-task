@@ -198,4 +198,11 @@ body {
   border: 0;
   background: none;
   color: #fff;
+}.no-selected{
+  justify-content: center;
+}
+.default-board-message {
+  color: #4f4f4f;
+  font-size: 1em;
+  width: 300px;
 }

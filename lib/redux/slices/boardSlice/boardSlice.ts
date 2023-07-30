@@ -122,6 +122,7 @@ export const boardSlice = createSlice({
         state.status = 'idle';
         state.boards = action.payload.boards;
         state.selectedBoard = action.payload.newBoard
+        state.tasks = [];
       })
 
       .addCase(deleteBoardAsync.pending, (state) => {
@@ -130,6 +131,12 @@ export const boardSlice = createSlice({
       .addCase(deleteBoardAsync.fulfilled, (state, action: PayloadAction<DeleteBoardResult>) => {
         state.status = 'idle';
         state.boards = action.payload.boards;
+
+        // Check if the deleted board was the selected board
+        if (state.selectedBoard && state.selectedBoard._id === action.payload.deletedBoardId) {
+          state.selectedBoard = undefined;
+          state.tasks = [];
+        }
       })
   },
 });

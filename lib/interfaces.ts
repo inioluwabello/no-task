@@ -30,4 +30,6 @@ export interface NewBoardResult {
 
 export interface DeleteBoardResult{
     boards: IBoard[]
+    deletedBoardId: string
+    message: string
 }

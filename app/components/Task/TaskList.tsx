@@ -13,23 +13,23 @@ export const TaskList = () => {
     useEffect(() => {
         if ((!tasks || tasks.length === 0) && selectedBoard)
             dispatch(getBoardTasksAsync(selectedBoard._id))
-    }, [tasks, selectedBoard])
+    }, [selectedBoard])
 
     const statusArray = [...new Set(tasks.map((task: ITask) => task.status))];
 
-    
+
     return (
         <div className="task-board">
-            <div className="flex">
+            <div className={`flex ${selectedBoard ? '' : 'no-selected'}`}>
                 {statusArray.map(status => {
                     return (
                         <StatusColumn key={status} selectedBoard={selectedBoard} tasks={tasks} status={status} />
                     )
                 })}
-                
+
                 <NewTask selectedBoard={selectedBoard} statusArray={statusArray} />
 
-                <div style={{width: "2em"}}></div>
+                <div style={{ width: "2em" }}></div>
             </div>
         </div>
     );
