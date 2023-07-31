@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { archiveTaskByStatus, deleteBoard, deleteTaskByStatus, fetchBoards, fetchBoardTasks, putNewBoard, putNewTask } from './asyncTasks';
+import { archiveTaskByStatus, deleteBoard, deleteTaskByStatus, fetchBoards, fetchBoardTasks, putNewBoard, putNewTask, updateTaskByStatus, updateTaskStatus } from './asyncTasks';
 import { BoardSliceState, DeleteBoardResult, IBoard, ITask, NewBoardResult } from '@/lib/interfaces';
 
 
@@ -54,6 +54,20 @@ export const deleteBoardAsync = createAsyncThunk(
       boardId: boardId
     }
     return deleteBoard(payload);
+  }
+);
+
+export const updateTaskStatusAsync = createAsyncThunk(
+  'board/updateTaskStatusAsync',
+  async (payload: { taskId: string, status: string }) => {
+    return updateTaskStatus(payload);
+  }
+);
+
+export const updateTaskByStatusAsync = createAsyncThunk(
+  'board/updateTaskByStatusAsync',
+  async (payload: { boardId: string, oldStatus: string, newStatus: string }) => {
+    return updateTaskByStatus(payload);
   }
 );
 
@@ -137,6 +151,26 @@ export const boardSlice = createSlice({
           state.selectedBoard = undefined;
           state.tasks = [];
         }
+      })
+
+      .addCase(updateTaskStatusAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(updateTaskStatusAsync.fulfilled, (state, action: PayloadAction<ITask>) => {
+        state.status = 'idle';
+
+        const taskIndex = state.tasks.findIndex((t) => t._id === action.payload._id);
+        if (taskIndex !== -1) {
+          state.tasks[taskIndex] = action.payload
+        }
+      })
+
+      .addCase(updateTaskByStatusAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(updateTaskByStatusAsync.fulfilled, (state, action: PayloadAction<ITask[]>) => {
+        state.status = 'idle';
+        state.tasks = action.payload
       })
   },
 });

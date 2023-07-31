@@ -18,13 +18,21 @@
     margin-right: 2px;
     position: relative;
     top: 2px;
+}.altLogo{
+    width: 28px;
+}.altLogo>span{
+    margin-bottom: 2px;
+    margin-right: 2px;
+    position: relative;
+    left: -6px;
 }
-
-.logo>span:nth-child(2) {
+.logo>span:nth-child(2),
+.altLogo>span:nth-child(2) {
     opacity: .7;
 }
 
-.logo>span:nth-child(3) {
+.logo>span:nth-child(3),
+.altLogo>span:nth-child(3) {
     opacity: .5;
 }
 

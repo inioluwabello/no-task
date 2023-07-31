@@ -1,5 +1,7 @@
 import { IBoard } from "@/lib/interfaces";
 import { boardSlice, deleteBoardAsync, getBoardTasksAsync, selectBoards, useDispatch, useSelector } from "@/lib/redux";
+import { faBriefcase } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 
 export const BoardListItem = ({ selectedBoard, item }: {selectedBoard?: IBoard, item: IBoard}) => {
@@ -19,12 +21,6 @@ export const BoardListItem = ({ selectedBoard, item }: {selectedBoard?: IBoard, 
         }
 
         dispatch(deleteBoardAsync(boardId))
-        // if (boardList.length > 0) {
-        //     dispatch(boardSlice.actions.selectBoard(boardList[0]))
-        //     dispatch(getBoardTasksAsync(boardList[0]._id))
-        // } else {
-        //     dispatch(boardSlice.actions.resetBoard())
-        // }
     }
 
     return (
@@ -33,7 +29,9 @@ export const BoardListItem = ({ selectedBoard, item }: {selectedBoard?: IBoard, 
             onMouseEnter={() => setCloseVisiblity(true)}
             onMouseLeave={() => setCloseVisiblity(false)}
             onClick={() => handleSelectBoardClick(item)}>
-            <span>{item.title}</span>
+            <span>
+                <FontAwesomeIcon icon={faBriefcase} />{" "}
+                {item.title}</span>
 
             {closeVisible &&
                 <button 

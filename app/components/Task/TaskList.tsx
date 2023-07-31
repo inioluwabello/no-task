@@ -23,7 +23,11 @@ export const TaskList = () => {
             <div className={`flex ${selectedBoard ? '' : 'no-selected'}`}>
                 {statusArray.map(status => {
                     return (
-                        <StatusColumn key={status} selectedBoard={selectedBoard} tasks={tasks} status={status} />
+                        <StatusColumn key={status} 
+                            selectedBoard={selectedBoard} 
+                            tasks={tasks} 
+                            status={status}
+                            statusArray={statusArray} />
                     )
                 })}
 

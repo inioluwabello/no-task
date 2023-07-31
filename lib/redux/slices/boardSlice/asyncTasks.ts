@@ -149,3 +149,45 @@ export const deleteBoard = async (payload: { boardId: string }) => {
     throw error;
   }
 };
+
+export const updateTaskStatus = async (payload: { taskId: string; status: string }) => {
+  try {
+    const response = await fetch(`${API_URL}/api/tasks/${payload.taskId}/status/${payload.status}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+      throw new Error('Error updating task status');
+    }
+
+    const task = await response.json();
+    return task;
+  } catch (error) {
+    console.error('Error updating task status:', error);
+    throw error;
+  }
+};
+
+export const updateTaskByStatus = async (
+  payload: { 
+    boardId: string, oldStatus: string, newStatus: string 
+  }) => {
+  try {
+    const response = 
+      await fetch(`${API_URL}/api/boards/${payload.boardId}/status/${payload.oldStatus}/${payload.newStatus}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+      throw new Error('Error updating task status');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error updating task status:', error);
+    throw error;
+  }
+};

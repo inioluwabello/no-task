@@ -28,7 +28,7 @@ export const TopPane = () => {
                 </div>
 
                 {showTopBarOptions === true && <div className="relative">
-                    <div className="top-bar-actions">
+                    <div className={styles.topBarActions}>
                         <ul>
                             <li className="pointer">Archived Items</li>
                         </ul>

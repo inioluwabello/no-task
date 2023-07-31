@@ -1,5 +1,5 @@
-import { IBoard } from "@/lib/interfaces";
-import { createNewTaskAsync, useDispatch } from "@/lib/redux";
+import { IBoard, ITask } from "@/lib/interfaces";
+import { createNewTaskAsync, updateTaskStatusAsync, useDispatch } from "@/lib/redux";
 import { faEllipsisVertical, faProjectDiagram } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
@@ -76,9 +76,23 @@ export const NewTask = ({ selectedBoard, statusArray }: NewTaskProp) => {
         }
     };
 
+    const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+    }
+
+    const onDrop = (e: React.DragEvent<HTMLDivElement>, status: string) => {
+        const task: ITask = JSON.parse(e.dataTransfer.getData('task'));
+        if (task.status !== status) {
+            dispatch(updateTaskStatusAsync({ taskId: task._id!, status }))
+        }
+    }
+
     return (
         <>
-            {selectedBoard && <div className="column new-column">
+            {selectedBoard && <div 
+                onDragOver={(e) => onDragOver(e)}
+                onDrop={(e) => onDrop(e, 'NEW STATUS')}
+                className="column new-column">
                 <h2
                     onClick={handleNewColumnCLick}
                     className={`
