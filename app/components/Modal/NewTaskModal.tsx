@@ -26,9 +26,12 @@ export const NewTaskModal = ({ statusOptions, boardId }: { statusOptions: string
                 setTask({...task, title: e.target.value});
                 break;
             case "subtasks":
-                const susTasks = task.subtasks;
-                susTasks[index!] = e.target.value
-                setTask({ ...task, subtasks: susTasks });
+                const subTasks = task.subTasks;
+                subTasks[index!] = {
+                    title: e.target.value,
+                    isCompleted: false
+                }
+                setTask({ ...task, subTasks: subTasks });
                 break;
             default:
                 return;
@@ -45,15 +48,15 @@ export const NewTaskModal = ({ statusOptions, boardId }: { statusOptions: string
     }
 
     const removeSubTask = (index: number) => {
-        const subTasks = [...task.subtasks];
+        const subTasks = [...task.subTasks];
         subTasks.splice(index, 1);
-        setTask({ ...task, subtasks: subTasks })
+        setTask({ ...task, subTasks: subTasks })
     }
 
     const addSubTask = () => {
-        const subTasks = [...task.subtasks];
-        subTasks.push('')
-        setTask({ ...task, subtasks: subTasks })
+        const subTasks = [...task.subTasks];
+        subTasks.push({ title: '', isCompleted: false })
+        setTask({ ...task, subTasks: subTasks })
     }
 
     const createTaskHandler = () => {
