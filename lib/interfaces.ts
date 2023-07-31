@@ -25,7 +25,7 @@ export interface ITask {
     status: string;
     assignees?: string[];
     comments?: string[];
-    subtasks: ISubTask[];
+    subTasks: ISubTask[];
 }
 
 export interface ISubTask {

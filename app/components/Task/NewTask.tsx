@@ -1,4 +1,4 @@
-import { IBoard, ITask } from "@/lib/interfaces";
+import { IBoard } from "@/lib/interfaces";
 import { createNewTaskAsync, useDispatch } from "@/lib/redux";
 import { faEllipsisVertical, faProjectDiagram } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -58,7 +58,7 @@ export const NewTask = ({ selectedBoard, statusArray }: NewTaskProp) => {
                             title: newTaskTitle,
                             status: newStatusName.toLocaleUpperCase(),
                             description: '',
-                            subtasks: []
+                            subTasks: []
                         }
                         
                     };

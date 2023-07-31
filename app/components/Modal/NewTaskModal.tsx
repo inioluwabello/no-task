@@ -7,7 +7,7 @@ export const NewTaskModal = ({ statusOptions, boardId }: { statusOptions: string
     const tsk: ITask = {
         title: 'Testing',
         description: 'Testing Description',
-        subtasks: [{
+        subTasks: [{
             title: 'Sub Task 1',
             isCompleted: false
         },
@@ -90,12 +90,12 @@ export const NewTaskModal = ({ statusOptions, boardId }: { statusOptions: string
 
                     {/* Subtasks */}
                     <label htmlFor="subtasks">Subtasks</label>
-                    {task.subtasks.map((subtask, index) => {
+                    {task.subTasks.map((subTask, index) => {
                         return <div key={index}>
                             <div className="flex v-align">
                                 <input type="text" id="subtasks"
                                     className="alt-text"
-                                    value={subtask.title}
+                                    value={subTask.title}
                                     onChange={(e) => handleFormInput(e, 'subtasks', index)}
                                     placeholder={index === 0 ? 'e.g Make Coffee' : (index === 1 ? 'e.g Drink coffee & smile' : 'You know what to do')}
                                      />
