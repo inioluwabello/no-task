@@ -2,7 +2,7 @@ import { BoardList } from "../Board/BoardList"
 import { Logo } from "../Logo/Logo"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
-import { pageSlice, selectTheme, testServerAsync, useDispatch, useSelector } from "@/lib/redux";
+import { pageSlice, selectTheme, useDispatch, useSelector } from "@/lib/redux";
 import styles from "./leftpane.module.css"
 
 export const LeftPane = () => {
@@ -36,8 +36,6 @@ export const LeftPane = () => {
                     <FontAwesomeIcon icon={faMoon} width={16} height={16} />
                 </button>
             </div>
-
-            <button onClick={() => dispatch(testServerAsync())}>Test Server</button>
         </div>
     )
 }

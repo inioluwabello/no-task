@@ -151,22 +151,3 @@ export const deleteBoard = async (payload: { boardId: string }) => {
     throw error;
   }
 };
-
-export const testAPI = async () => {
-  try {
-    const response = await fetch(`${API_URL}/api/tasks`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    });
-
-    if (!response.ok) {
-      throw new Error('Error deleting tasks by status');
-    }
-
-    const { message, boards } = await response.json();
-    return { message, boards };
-  } catch (error) {
-    console.error('Error deleting tasks by status:', error);
-    throw error;
-  }
-};

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { archiveTaskByStatus, deleteBoard, deleteTaskByStatus, fetchBoards, fetchBoardTasks, putNewBoard, putNewTask, testAPI } from './asyncTasks';
+import { archiveTaskByStatus, deleteBoard, deleteTaskByStatus, fetchBoards, fetchBoardTasks, putNewBoard, putNewTask } from './asyncTasks';
 import { BoardSliceState, DeleteBoardResult, IBoard, ITask, NewBoardResult } from '@/lib/interfaces';
 
 
@@ -57,13 +57,6 @@ export const deleteBoardAsync = createAsyncThunk(
   }
 );
 
-export const testServerAsync = createAsyncThunk(
-  'board/testServerAsync',
-  async () => {
-    return testAPI();
-  }
-);
-
 export const boardSlice = createSlice({
   name: 'board',
   initialState,
@@ -81,14 +74,6 @@ export const boardSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(testServerAsync.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(testServerAsync.fulfilled, (state, action) => {
-        state.status = 'idle';
-        console.log(action.payload)
-      })
-
       .addCase(getBoardsAsync.pending, (state) => {
         state.status = 'loading';
       })
