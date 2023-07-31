@@ -1,4 +1,4 @@
-import { IBoard } from "@/lib/interfaces";
+import { IBoard, ITask } from "@/lib/interfaces";
 import { createNewTaskAsync, useDispatch } from "@/lib/redux";
 import { faEllipsisVertical, faProjectDiagram } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -54,8 +54,13 @@ export const NewTask = ({ selectedBoard, statusArray }: NewTaskProp) => {
                 try {
                     const payload = {
                         boardId: selectedBoard?._id ?? '',
-                        title: newTaskTitle,
-                        status: newStatusName.toLocaleUpperCase(),
+                        task: {
+                            title: newTaskTitle,
+                            status: newStatusName.toLocaleUpperCase(),
+                            description: '',
+                            subtasks: []
+                        }
+                        
                     };
 
                     await dispatch(createNewTaskAsync(payload));

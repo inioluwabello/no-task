@@ -21,7 +21,7 @@ export const getBoardTasksAsync = createAsyncThunk('board/fetchBoardTasksAsync',
 
 export const createNewTaskAsync = createAsyncThunk(
   'board/createNewTaskAsync',
-  async (payload: { boardId: string; title: string; status: string }) => {
+  async (payload: {task: ITask, boardId: string}) => {
     return putNewTask(payload);
   }
 );

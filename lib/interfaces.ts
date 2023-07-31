@@ -6,6 +6,10 @@ export interface BoardSliceState {
     status: 'idle' | 'loading' | 'failed';
 }
 
+export interface ModalSliceState {
+    isOpen: boolean
+}
+
 export interface IBoard {
     _id: string;
     title: string;
@@ -13,14 +17,21 @@ export interface IBoard {
 }
 
 export interface ITask {
-    _id: string;
+    _id?: string;
     title: string;
     description: string;
-    dueDate: Date;
-    priority: string;
+    dueDate?: Date;
+    priority?: string;
     status: string;
-    assignees: string[];
-    comments: string[];
+    assignees?: string[];
+    comments?: string[];
+    subtasks: ISubTask[];
+}
+
+export interface ISubTask {
+    title: string,
+    dueDate?: Date,
+    isCompleted: boolean
 }
 
 export interface NewBoardResult {

@@ -1,10 +1,12 @@
 'use client'
 
-import { getBoardsAsync, pageSlice, selectBoards, selectTheme, useDispatch, useSelector } from "@/lib/redux";
+import { getBoardsAsync, getSelectedBoard, pageSlice, selectBoards, selectModalState, selectTasks, selectTheme, useDispatch, useSelector } from "@/lib/redux";
 import { LeftPane } from "../LeftPane/LeftPane";
 import React, { useEffect, useState } from "react";
 import { TaskList } from "../Task/TaskList";
 import { TopPane } from "../TopPane/TopPane";
+import { NewTaskModal } from "../Modal/NewTaskModal";
+import { ITask } from "@/lib/interfaces";
 
 const Board = React.memo(() => {
 
@@ -14,6 +16,10 @@ const Board = React.memo(() => {
     const [isFetching, setIsFetching] = useState(false);
     const [hasFetched, setHasFetched] = useState(false); // Track if the API call has been attempted
 
+    const tasks = useSelector(selectTasks);
+    const statusOptions = [...new Set(tasks.map((task: ITask) => task.status))];
+    const selectedBoard = useSelector(getSelectedBoard);
+    const modalIsOpen = useSelector(selectModalState)
     
     useEffect(() => {
         // Dispatch getBoardsAsync only if boardList is empty and not already fetching
@@ -44,7 +50,6 @@ const Board = React.memo(() => {
     }, [dispatch]);
 
     return (
-        
         <div className={`main ${theme} flex`}>
             <LeftPane />
 
@@ -54,6 +59,14 @@ const Board = React.memo(() => {
                     <TaskList />
                 </div>
             </div>
+
+            {
+                modalIsOpen &&
+                statusOptions && 
+                statusOptions.length > 0 &&
+                selectedBoard &&
+                <NewTaskModal statusOptions={statusOptions} boardId={selectedBoard!._id} />
+            }
         </div>
 
     )

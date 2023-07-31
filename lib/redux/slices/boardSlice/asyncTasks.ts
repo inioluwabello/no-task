@@ -44,16 +44,14 @@ export const fetchBoards = async (): Promise<IBoard[]> => {
   }
 };
 
-export const putNewTask = async (payload: { boardId: string; title: string; status: string }) => {
+export const putNewTask = async (payload: {task: ITask, boardId: string}) => {
   try {
     // Assuming you have a function to create a new task in your backend
     const response = await fetch(`${API_URL}/api/boards/${payload.boardId}/tasks`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        title: payload.title,
-        status: payload.status,
-        // Add other task properties as needed
+        ...payload.task
       }),
     });
 
