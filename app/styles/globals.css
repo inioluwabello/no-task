@@ -177,6 +177,9 @@ li.selected-board {
   border: 0;
   margin-top: 2em;
   color: #ffffff;
+  font-size: 12px;
+}.new-task-inline{
+  margin-top: unset;
 }.error{
   color: red !important;
 }.btn-icon {
@@ -289,4 +292,6 @@ li.selected-board {
   position: relative;
   top: 2px;
   margin-right: 0.5em;
+}.mt--1 {
+  margin-top: -1em;
 }

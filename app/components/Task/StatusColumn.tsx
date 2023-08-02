@@ -6,6 +6,7 @@ import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { StatusActions } from "./StatusActions";
 import { updateTaskByStatusAsync, updateTaskStatusAsync, useDispatch } from "@/lib/redux";
 import { generateColor } from "@/app/utils/util";
+import { NewInlineTask } from "./NewInlineTask";
 
 export const StatusColumn = ({ 
         status, tasks, selectedBoard, statusArray 
@@ -100,7 +101,6 @@ export const StatusColumn = ({
 
     }
     
-
     return (
         <div className="column" 
             onDragOver={(e) => onDragOver(e, status)}
@@ -147,6 +147,11 @@ export const StatusColumn = ({
             }
 
             {renderTasksByStatus(status)}
+
+            <NewInlineTask 
+                isVisible={showOptionButton} 
+                status={status}
+                selectedBoard={selectedBoard} />
         </div>
     )
 }
