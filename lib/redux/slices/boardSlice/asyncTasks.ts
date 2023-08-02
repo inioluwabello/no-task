@@ -191,3 +191,23 @@ export const updateTaskByStatus = async (
     throw error;
   }
 };
+
+export const deleteTask = async (payload: { taskId: string }) => {
+  try {
+    // Assuming you have a function to delete tasks by status in your backend
+    const response = await fetch(`${API_URL}/api/tasks/${payload.taskId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+      throw new Error('Error deleting task');
+    }
+
+    const { message } = await response.json();
+    return { message, deletedTaskId: payload.taskId };
+  } catch (error) {
+    console.error('Error deleting task:', error);
+    throw error;
+  }
+};
