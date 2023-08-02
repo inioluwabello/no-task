@@ -131,6 +131,7 @@ li.selected-board {
   padding: 1em;
 }.column {
   min-width: 180px;
+  max-width: 250px;
   margin-right: 1em;
   min-height: 100vh;
 }.task-column{

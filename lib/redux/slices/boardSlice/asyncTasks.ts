@@ -171,11 +171,11 @@ export const updateTaskStatus = async (payload: { taskId: string; status: string
 
 export const updateTaskByStatus = async (
   payload: { 
-    boardId: string, oldStatus: string, newStatus: string 
+    boardId: string, oldStatus: string, newStatus: string, color?: string
   }) => {
   try {
     const response = 
-      await fetch(`${API_URL}/api/boards/${payload.boardId}/status/${payload.oldStatus}/${payload.newStatus}`, {
+      await fetch(`${API_URL}/api/boards/${payload.boardId}/status/${payload.oldStatus}/${payload.newStatus}/${payload.color}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -184,8 +184,7 @@ export const updateTaskByStatus = async (
       throw new Error('Error updating task status');
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
     console.error('Error updating task status:', error);
     throw error;
@@ -208,6 +207,30 @@ export const deleteTask = async (payload: { taskId: string }) => {
     return { message, deletedTaskId: payload.taskId };
   } catch (error) {
     console.error('Error deleting task:', error);
+    throw error;
+  }
+};
+
+export const putNewStatus = async (payload: { status: string; color: string; boardId: string }) => {
+  try {
+    // Assuming you have a function to create a new task in your backend
+    const response = await fetch(`${API_URL}/api/boards/${payload.boardId}/statuses`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        status: payload.status,
+        color: payload.color,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error creating a new status');
+    }
+
+    const { board } = await response.json();
+    return { board };
+  } catch (error) {
+    console.error('Error creating a new task:', error);
     throw error;
   }
 };

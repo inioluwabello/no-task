@@ -25,8 +25,8 @@ export const TaskCard = ({ task }: TakListProps) => {
             <div className="space-between">
                 <h3>{task.title}</h3>
                 {taskIconVisible  && <img src="/images/icon-cross.svg" 
-                    width={10} 
-                    height={10} 
+                    width={10}
+                    height={10}
                     className="pointer"
                     onClick={() => dispatch(deleteTaskAsync({ taskId: task._id! }))}
                     alt="close" />}

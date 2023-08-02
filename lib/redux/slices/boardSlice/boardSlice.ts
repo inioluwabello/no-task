@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { archiveTaskByStatus, deleteBoard, deleteTask, deleteTaskByStatus, fetchBoards, fetchBoardTasks, putNewBoard, putNewTask, updateTaskByStatus, updateTaskStatus } from './asyncTasks';
+import { archiveTaskByStatus, deleteBoard, deleteTask, deleteTaskByStatus, fetchBoards, fetchBoardTasks, putNewBoard, putNewStatus, putNewTask, updateTaskByStatus, updateTaskStatus } from './asyncTasks';
 import { BoardSliceState, DeleteBoardResult, IBoard, ITask, NewBoardResult } from '@/lib/interfaces';
 
 
@@ -66,7 +66,7 @@ export const updateTaskStatusAsync = createAsyncThunk(
 
 export const updateTaskByStatusAsync = createAsyncThunk(
   'board/updateTaskByStatusAsync',
-  async (payload: { boardId: string, oldStatus: string, newStatus: string }) => {
+  async (payload: { boardId: string, oldStatus: string, newStatus: string, color?: string }) => {
     return updateTaskByStatus(payload);
   }
 );
@@ -75,6 +75,13 @@ export const deleteTaskAsync = createAsyncThunk(
   'board/deleteTaskAsync',
   async (payload: { taskId: string }) => {
     return deleteTask(payload);
+  }
+);
+
+export const createNewStatusAsync = createAsyncThunk(
+  'board/createNewStatusAsync',
+  async (payload: { status: string, color: string, boardId: string }) => {
+    return putNewStatus(payload);
   }
 );
 
@@ -123,17 +130,21 @@ export const boardSlice = createSlice({
       .addCase(deleteTaskInStatusAsync.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(deleteTaskInStatusAsync.fulfilled, (state, action: PayloadAction<ITask[]>) => {
+      .addCase(deleteTaskInStatusAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.tasks = action.payload;
+        const { board, tasks } = action.payload;
+        state.selectedBoard = board;
+        state.tasks = tasks;
       })
 
       .addCase(archiveTaskInStatusAsync.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(archiveTaskInStatusAsync.fulfilled, (state, action: PayloadAction<ITask[]>) => {
+      .addCase(archiveTaskInStatusAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.tasks = action.payload;
+        const { board, tasks } = action.payload;
+        state.selectedBoard = board;
+        state.tasks = tasks;
       })
 
       .addCase(createNewBoardAsync.pending, (state) => {
@@ -175,9 +186,11 @@ export const boardSlice = createSlice({
       .addCase(updateTaskByStatusAsync.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(updateTaskByStatusAsync.fulfilled, (state, action: PayloadAction<ITask[]>) => {
+      .addCase(updateTaskByStatusAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.tasks = action.payload
+        const { board, tasks } = action.payload;
+        state.selectedBoard = board;
+        state.tasks = tasks;
       })
 
       .addCase(deleteTaskAsync.pending, (state) => {
@@ -187,6 +200,15 @@ export const boardSlice = createSlice({
         state.status = 'idle';
         const { deletedTaskId, message } = action.payload;
         state.tasks = state.tasks.filter((f) => f._id !== deletedTaskId)
+      })
+
+      .addCase(createNewStatusAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(createNewStatusAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        const { board } = action.payload;
+        state.selectedBoard = board;
       })
   },
 });

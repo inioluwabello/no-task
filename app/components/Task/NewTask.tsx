@@ -1,12 +1,13 @@
-import { IBoard, ITask } from "@/lib/interfaces";
-import { createNewTaskAsync, updateTaskStatusAsync, useDispatch } from "@/lib/redux";
+import { generateColor } from "@/app/utils/util";
+import { IBoard, IStatus, ITask } from "@/lib/interfaces";
+import { createNewStatusAsync, createNewTaskAsync, updateTaskStatusAsync, useDispatch } from "@/lib/redux";
 import { faEllipsisVertical, faProjectDiagram } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 
 interface NewTaskProp {
     selectedBoard?: IBoard,
-    statusArray: string[]
+    statusArray: IStatus[]
 }
 
 export const NewTask = ({ selectedBoard, statusArray }: NewTaskProp) => {
@@ -34,9 +35,18 @@ export const NewTask = ({ selectedBoard, statusArray }: NewTaskProp) => {
     const [entryError, setEntryError] = useState(false);
     const handleEnterPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
         if (e.key === 'Enter' && newStatusName !== '') {
-            if (statusArray.indexOf(newStatusName.toLocaleUpperCase()) === -1)
+            statusArray = statusArray ? statusArray : []
+            const statusIndex = statusArray.findIndex(s => s.status === newStatusName.toLocaleUpperCase())
+            if (statusIndex === -1) {
+                const payload = {
+                    status: newStatusName.toLocaleUpperCase(),
+                    color: generateColor(),
+                    boardId: selectedBoard!._id
+                }
+                dispatch(createNewStatusAsync(payload))
                 setNewClEditorVisible(false);
-            else
+                setNewStatusName('')
+            } else
                 setEntryError(true);
         }
 

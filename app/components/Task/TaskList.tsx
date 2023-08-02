@@ -2,7 +2,6 @@ import { getBoardTasksAsync, getSelectedBoard, selectTasks, useDispatch, useSele
 import { useEffect } from 'react';
 import { NewTask } from './NewTask';
 import { StatusColumn } from './StatusColumn';
-import { ITask } from '@/lib/interfaces';
 
 export const TaskList = () => {
 
@@ -15,26 +14,26 @@ export const TaskList = () => {
             dispatch(getBoardTasksAsync(selectedBoard._id))
     }, [selectedBoard])
 
-    const statusArray = [...new Set(tasks.map((task: ITask) => task.status))];
-
+    const statusArray = selectedBoard?.statuses.filter(s => !s.isArchived);
 
     return (
-        <div className="task-board">
+        selectedBoard && <div className="task-board">
             <div className={`flex ${selectedBoard ? '' : 'no-selected'}`}>
-                {statusArray.map(status => {
+                {statusArray && 
+                statusArray!.map(status => {
                     return (
-                        <StatusColumn key={status} 
+                        <StatusColumn key={status.status} 
                             selectedBoard={selectedBoard} 
                             tasks={tasks} 
                             status={status}
-                            statusArray={statusArray} />
+                            statusArray={statusArray!} />
                     )
                 })}
 
-                <NewTask selectedBoard={selectedBoard} statusArray={statusArray} />
+                <NewTask selectedBoard={selectedBoard} statusArray={statusArray!} />
 
                 <div style={{ width: "2em" }}></div>
             </div>
-        </div>
+        </div> 
     );
 };

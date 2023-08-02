@@ -13,7 +13,15 @@ export interface ModalSliceState {
 export interface IBoard {
     _id: string;
     title: string;
-    statuses: string[];
+    statuses: IStatus[];
+}
+
+export interface IStatus {
+    _id: string;
+    status: string;
+    color: string;
+    isArchived: boolean;
+    userId: string
 }
 
 export interface ITask {

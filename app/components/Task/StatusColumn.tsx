@@ -1,4 +1,4 @@
-import { IBoard, ITask } from "@/lib/interfaces";
+import { IBoard, IStatus, ITask } from "@/lib/interfaces";
 import { TaskCard } from "./TaskCard";
 import { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,7 +11,7 @@ import { NewInlineTask } from "./NewInlineTask";
 export const StatusColumn = ({ 
         status, tasks, selectedBoard, statusArray 
     }: {
-        status: string, tasks: ITask[], selectedBoard?: IBoard, statusArray: string[] 
+        status: IStatus, tasks: ITask[], selectedBoard?: IBoard, statusArray: IStatus[] 
     }) => {
     const [showingStatusActions, setShowingStatusActions] = useState(false);
     const statusActionsRef = useRef<HTMLDivElement>(null);
@@ -76,7 +76,7 @@ export const StatusColumn = ({
 
     const handleEditColumnClick = () => {
         setStatusEditorVisible(true);
-        setNewStatusName(status === 'NEW STATUS' ?  '' : status);
+        setNewStatusName(status.status === 'NEW STATUS' ? '' : status.status);
     }
     const [newStatusName, setNewStatusName] = useState('');
     const handleStatusInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -84,12 +84,19 @@ export const StatusColumn = ({
     }
     const [entryError, setEntryError] = useState(false);
     const handleEnterPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+        if (e.key === 'Escape') {
+            setStatusEditorVisible(false);
+        }
         if (e.key === 'Enter' && newStatusName !== '') {
-            if (statusArray.indexOf(newStatusName.toLocaleUpperCase()) === -1){
+            const statusIndex = statusArray.findIndex(s => s.status === newStatusName.toLocaleUpperCase())
+            console.log(statusIndex)
+
+            if (statusIndex === -1){
                 const payload = { 
                     boardId: selectedBoard!._id, 
-                    oldStatus: status, 
-                    newStatus: newStatusName.toLocaleUpperCase() 
+                    oldStatus: status.status, 
+                    newStatus: newStatusName.toLocaleUpperCase(),
+                    color: generateColor()
                 }
                 dispatch(updateTaskByStatusAsync(payload))
                 setStatusEditorVisible(false);
@@ -103,15 +110,15 @@ export const StatusColumn = ({
     
     return (
         <div className="column" 
-            onDragOver={(e) => onDragOver(e, status)}
-            onDrop={(e) => onDrop(e, status)}
+            onDragOver={(e) => onDragOver(e, status.status)}
+            onDrop={(e) => onDrop(e, status.status)}
             onMouseEnter={() => setShowOptionButton(true)}
             onMouseLeave={() => setShowOptionButton(false)}>
             <div className="task-column space-between">
                 {statusEditorVisible === false && 
                     <h2 className='alt-text' onClick={handleEditColumnClick}>
-                    <span className="status-icon" style={{ background: generateColor() }}></span> 
-                    {status} ({countTasksByStatus(status)})</h2>}
+                    <span className="status-icon" style={{ background: status.color }}></span> 
+                    {status.status} ({countTasksByStatus(status.status)})</h2>}
 
                 {
                     statusEditorVisible === false &&
@@ -142,15 +149,15 @@ export const StatusColumn = ({
 
             {showingStatusActions &&
                 <div ref={statusActionsRef}>
-                    <StatusActions boardId={selectedBoard!._id} status={status} onCloseDropdown={onCloseDropdown} />
+                    <StatusActions boardId={selectedBoard!._id} status={status.status} onCloseDropdown={onCloseDropdown} />
                 </div>
             }
 
-            {renderTasksByStatus(status)}
+            {renderTasksByStatus(status.status)}
 
             <NewInlineTask 
                 isVisible={showOptionButton} 
-                status={status}
+                status={status.status}
                 selectedBoard={selectedBoard} />
         </div>
     )
